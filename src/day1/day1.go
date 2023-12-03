@@ -48,7 +48,7 @@ func TaskOne() {
 		result += num
 	}
 
-	fmt.Printf("Success!\nResult:%v", result)
+	fmt.Printf("Result:%v", result)
 }
 
 func TaskTwo() {
@@ -125,5 +125,5 @@ func TaskTwo() {
 		result += num
 	}
 
-	fmt.Printf("Success!\nResult:%v", result)
+	fmt.Printf("Result:%v", result)
 }
