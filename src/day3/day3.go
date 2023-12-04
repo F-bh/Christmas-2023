@@ -119,15 +119,3 @@ func TaskOne() {
 	}
 	fmt.Printf("Result:%+v", result)
 }
-
-func TaskTwo() {
-	inputFile, err := os.ReadFile("/home/feyez/coding/Christmas-2023/src/day3/input3")
-	if err != nil {
-		log.Fatalf("failed to read file input1\nwith err: %v", err.Error())
-	}
-	input := string(inputFile)
-	_ = input
-	var result int
-
-	fmt.Printf("Result:%+v", result)
-}
