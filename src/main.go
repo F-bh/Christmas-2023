@@ -5,6 +5,7 @@ import (
 	"Christmas-2023/src/day2"
 	"Christmas-2023/src/day3"
 	"Christmas-2023/src/day4"
+	"Christmas-2023/src/day5"
 	"fmt"
 )
 
@@ -23,4 +24,8 @@ func main() {
 	day4.TaskOne()
 	fmt.Println("\n----------------------------------")
 	day4.TaskTwo()
+	fmt.Println("\n**********************************\nDay5")
+	day5.TaskOne()
+	fmt.Println("\n----------------------------------")
+	day5.TaskTwo()
 }
