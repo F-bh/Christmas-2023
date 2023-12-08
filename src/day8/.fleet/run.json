@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "type": "cargo",
+            "name": "Cargo run",
+            "cargoArgs": [
+                "run"
+            ],
+            "executableArgs": [
+                "1",
+                "2",
+                "3"
+            ],
+        },
+        {
+            "type": "cargo",
+            "name": "Cargo fmt",
+            "cargoArgs": [
+                "fmt"
+            ],
+        },
+    ]
+}
