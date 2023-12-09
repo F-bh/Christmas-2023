@@ -214,7 +214,6 @@ func TaskTwo() {
 	go func() {
 		defer wg2.Done()
 		for val := range endSeeds {
-			fmt.Printf("%v\nchanLen: %v\n", val, len(endSeeds))
 			if lowest == -1 {
 				lowest = val
 

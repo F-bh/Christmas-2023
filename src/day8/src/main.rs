@@ -2,6 +2,7 @@ use std::fs::read_to_string;
 
 #[derive(Default, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct Node {
+    index: Option<usize>,
     value: String,
     left: String,
     left_index: Option<usize>,
@@ -16,12 +17,12 @@ impl From<&String> for Node {
         let split_line: Vec<String> = value.split(" = ").map(&str::to_string).collect();
 
         let tmp_steps: Vec<&str> = split_line[1]
-        .trim()
-        .trim_matches('(')
-        .trim_matches(')')
-        .trim_matches(char::is_whitespace)
-        .split(",")
-        .collect();
+            .trim()
+            .trim_matches('(')
+            .trim_matches(')')
+            .trim_matches(char::is_whitespace)
+            .split(",")
+            .collect();
 
         node.value = split_line.first().unwrap().trim().to_string();
 
@@ -35,23 +36,25 @@ impl From<&String> for Node {
 impl Node {
     fn create_index(to_index: &mut Vec<Node>) {
         let search_nodes = to_index.clone();
-        
-        for mut node in  to_index {
-            for (index, search_node) in  search_nodes.iter().enumerate() {
+
+        for (base_index, node) in to_index.iter_mut().enumerate() {
+            node.index = Some(base_index);
+
+            for (index, search_node) in search_nodes.iter().enumerate() {
                 if node.left == search_node.value {
                     node.left_index = Some(index);
                 }
-                
-                if node.right == search_node.value{
+
+                if node.right == search_node.value {
                     node.right_index = Some(index);
                 }
-                
-                if node.left_index != None && node.right_index != None{
-                    break
+
+                if node.left_index.is_some() && node.right_index.is_some() {
+                    break;
                 }
             }
-            
-            if node.left_index == None || node.right_index == None{
+
+            if node.left_index.is_none() || node.right_index.is_none() {
                 panic!("failed to index")
             }
         }
@@ -76,41 +79,51 @@ fn main() {
         .iter()
         .map(Node::from)
         .collect();
-    
+
     Node::create_index(&mut nodes);
- 
-    let steps = find_zzz(&nodes, &instructions);
+
+    let steps = find_zzz(nodes, instructions);
+
     println!("steps: {}", steps)
 }
 
-fn find_zzz(nodes: &Vec<Node>, instructions: &Vec<char>) -> usize {
+fn find_zzz(nodes: Vec<Node>, instructions: Vec<char>) -> usize {
     let mut steps = 0;
-    let mut current_node_index = nodes.iter().position(|node| node.value =="AAA").unwrap();
     let mut instruction_index = 0;
+    let mut current_nodes: Vec<Node> = nodes
+        .iter()
+        .filter(|node| node.value.ends_with('A')).cloned()
+        .collect();
     
     loop {
-        let instruction = instructions[instruction_index];
-        
-        let node_to_find = match instruction {
-            'L' => (nodes[current_node_index].left_index.unwrap(), &nodes[current_node_index].left),
-            'R' => (nodes[current_node_index].right_index.unwrap(), &nodes[current_node_index].right),
-            _ => panic!("invalid instruction {}", instruction),
-        };
-        
         steps += 1;
-        
-        if node_to_find.1 == "ZZZ" {
-            println!("done!");
-            break
+        let instruction = instructions[instruction_index];
+
+        for current_node in current_nodes.iter_mut() {
+            let node_to_find = match instruction {
+                'L' => nodes[current_node.left_index.unwrap()].clone(),
+                'R' => nodes[current_node.right_index.unwrap()].clone(),
+                _ => panic!("invalid instruction {}", instruction),
+            };
+            *current_node = node_to_find;
         }
 
-        current_node_index = node_to_find.0;
-      
-        if instruction_index == instructions.len() -1{
+        if current_nodes
+            .iter()
+            .filter(|it| it.value.ends_with("Z"))
+            .count()
+            == current_nodes.len()
+        {
+            println!("found!");
+            println!("{:?}", current_nodes);
+            break;
+        }
+
+        if instruction_index == instructions.len() - 1 {
             instruction_index = 0;
             continue;
         }
-        
+
         instruction_index += 1;
     }
 
