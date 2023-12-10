@@ -155,16 +155,48 @@ func TaskOne() {
 		sum += prediction
 	}
 
+	fmt.Println("\n######################")
+	fmt.Printf("\nResult: %v", sum)
+}
+
+func TaskTwo() {
+	inputFile, err := os.Open("/home/feyez/coding/Christmas-2023/src/day9/input")
+	defer func() {
+		if err := inputFile.Close(); err != nil {
+			panic(err.Error())
+		}
+	}()
+
+	if err != nil {
+		log.Fatalf("failed to open file input1\nwith err: %v", err.Error())
+	}
+
+	fileScanner := bufio.NewScanner(inputFile)
+	var lines [][]*Node
+
+	for fileScanner.Scan() {
+		line := strings.Split(fileScanner.Text(), " ")
+		var prevNode *Node
+		var nodes []*Node
+
+		for _, tmp := range line {
+			currNode := parseNode(tmp, prevNode)
+			currNode.addLeftChild(prevNode)
+			prevNode = &currNode
+
+			nodes = append(nodes, &currNode)
+		}
+
+		lines = append(lines, nodes)
+		addAllChildren(nodes)
+	}
+
 	past := 0
 	for _, line := range lines {
-		fmt.Println("\n######################\n")
 		prediction := line[0].predictPast()
-		fmt.Printf("predicting past: %v\n", prediction)
 		past += prediction
 	}
 
-	//1934898173 too low
 	fmt.Println("\n######################")
-	fmt.Printf("\nResult: %v", sum)
-	fmt.Printf("\nResult 2: %v", past)
+	fmt.Printf("\nResult: %v", past)
 }
