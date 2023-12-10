@@ -14,6 +14,7 @@ type Node struct {
 	rightParent   *Node
 	leftNeighbour *Node
 	leftChild     *Node
+	rightChild    *Node
 }
 
 func parseNode(input string, leftNode *Node) Node {
@@ -33,15 +34,45 @@ func (n *Node) addLeftChild(leftNode *Node) {
 		return
 	}
 	newVal := n.value - leftNode.value
-	/*if newVal < 0 {
-		newVal = newVal * -1
-	}*/
 
 	n.leftChild = &Node{
 		value:         newVal,
 		rightParent:   n,
 		leftNeighbour: leftNode.leftChild,
 	}
+
+	n.leftNeighbour.rightChild = n.leftChild
+}
+func (n *Node) getPrediction() (prediction int) {
+	for n.leftChild != nil {
+		n = n.leftChild
+	}
+
+	prediction = n.value
+	for n.rightParent != nil {
+		n = n.rightParent
+		prediction += n.value
+	}
+
+	return
+}
+
+func (n *Node) predictPast() (prediction int) {
+	for n.rightChild != nil {
+		n = n.rightChild
+	}
+
+	for {
+		prediction = n.value - prediction
+
+		if n.rightParent == nil {
+			break
+		}
+
+		n = n.rightParent.leftNeighbour
+	}
+
+	return
 }
 
 func addAllChildren(input []*Node) {
@@ -86,22 +117,6 @@ func printTree(input []*Node) {
 	printTree(children)
 }
 
-func getPrediction(input *Node) int {
-	currNode := input
-	prediction := 0
-
-	for currNode.value != 0 {
-		currNode = currNode.leftChild
-	}
-
-	prediction = currNode.value
-	for currNode.rightParent != nil {
-		currNode = currNode.rightParent
-		prediction += currNode.value
-	}
-	return prediction
-}
-
 func TaskOne() {
 	inputFile, err := os.Open("/home/feyez/coding/Christmas-2023/src/day9/input")
 	defer func() {
@@ -136,15 +151,20 @@ func TaskOne() {
 
 	sum := 0
 	for _, line := range lines {
-		fmt.Println("\n######################")
-		printTree(line)
-		fmt.Println("\n")
-		prediction := getPrediction(line[len(line)-1])
-		fmt.Printf("\npredicting: %v\n", prediction)
+		prediction := line[len(line)-1].getPrediction()
 		sum += prediction
+	}
+
+	past := 0
+	for _, line := range lines {
+		fmt.Println("\n######################\n")
+		prediction := line[0].predictPast()
+		fmt.Printf("predicting past: %v\n", prediction)
+		past += prediction
 	}
 
 	//1934898173 too low
 	fmt.Println("\n######################")
 	fmt.Printf("\nResult: %v", sum)
+	fmt.Printf("\nResult 2: %v", past)
 }
