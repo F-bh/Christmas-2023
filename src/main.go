@@ -3,6 +3,7 @@ package main
 import (
 	"Christmas-2023/src/day1"
 	"Christmas-2023/src/day10"
+	"Christmas-2023/src/day11"
 	"Christmas-2023/src/day2"
 	"Christmas-2023/src/day3"
 	"Christmas-2023/src/day4"
@@ -28,4 +29,5 @@ func main() {
 	printDay(5, day5.TaskOne) //, day5.TaskTwo)
 	printDay(9, day9.TaskOne, day9.TaskTwo)
 	printDay(10, day10.TaskOne)
+	printDay(11, day11.TaskOne, day11.TaskTwo)
 }
