@@ -6,3 +6,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+/Christmas-2023.iml
+/libraries/Maven__org_jetbrains_kotlin_kotlin_script_runtime_1_9_0.xml
+/misc.xml

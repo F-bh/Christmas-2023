@@ -4,12 +4,16 @@ import (
 	"Christmas-2023/src/day1"
 	"Christmas-2023/src/day10"
 	"Christmas-2023/src/day11"
+	"Christmas-2023/src/day13"
 	"Christmas-2023/src/day2"
 	"Christmas-2023/src/day3"
 	"Christmas-2023/src/day4"
 	"Christmas-2023/src/day5"
 	"Christmas-2023/src/day9"
 	"fmt"
+	"log"
+	"net/http"
+	_ "net/http/pprof"
 )
 
 func printDay(day int, fns ...func()) {
@@ -22,6 +26,10 @@ func printDay(day int, fns ...func()) {
 }
 
 func main() {
+	go func() {
+		log.Fatal(http.ListenAndServe(":7777", nil))
+	}()
+
 	printDay(1, day1.TaskOne, day1.TaskTwo)
 	printDay(2, day2.TaskOne, day2.TaskTwo)
 	printDay(3, day3.TaskOne)
@@ -30,4 +38,6 @@ func main() {
 	printDay(9, day9.TaskOne, day9.TaskTwo)
 	printDay(10, day10.TaskOne)
 	printDay(11, day11.TaskOne, day11.TaskTwo)
+	//printDay(12, day12.TaskOne)
+	printDay(13, day13.TaskOne)
 }
