@@ -9,7 +9,7 @@ import (
 )
 
 func TaskOne() {
-	inputFile, err := os.ReadFile("D:\\Projekte\\Christmas-2023\\src\\day13\\input")
+	inputFile, err := os.ReadFile("/home/feyez/coding/Christmas-2023/src/day13/input")
 	if err != nil {
 		log.Fatalf("failed to open file input\nwith err: %v", err.Error())
 	}
@@ -52,7 +52,7 @@ func TaskOne() {
 }
 
 func TaskTwo() {
-	inputFile, err := os.ReadFile("D:\\Projekte\\Christmas-2023\\src\\day13\\input")
+	inputFile, err := os.ReadFile("/home/feyez/coding/Christmas-2023/src/day13/input")
 	if err != nil {
 		log.Fatalf("failed to open file input\nwith err: %v", err.Error())
 	}
@@ -95,7 +95,7 @@ func TaskTwo() {
 }
 
 func findMirror(puzzle []string) int {
-	for lineIndex, _ := range puzzle {
+	for lineIndex := range puzzle {
 		if lineIndex == 0 {
 			continue
 		}
@@ -124,7 +124,7 @@ func findMirror(puzzle []string) int {
 }
 
 func findMirrorWithSmudge(puzzle []string) int {
-	for lineIndex, _ := range puzzle {
+	for lineIndex := range puzzle {
 		if lineIndex == 0 {
 			continue
 		}
