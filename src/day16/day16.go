@@ -110,3 +110,117 @@ func TaskOne() {
 
 	fmt.Println(len(visited))
 }
+
+func TaskTwo() {
+	dir, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("couldnt get pwd\nwith err: %v", err.Error())
+	}
+
+	inputFile, err := os.ReadFile(dir + "/src/day16/input")
+	if err != nil {
+		log.Fatalf("failed to open file input\nwith err: %v", err)
+	}
+
+	grid := strings.Split(string(inputFile), "\n")
+
+	maxVisited := 0
+
+	// all edges on the top
+	for x := 0; x < len(grid[0]); x++ {
+		startBeam := beam{
+			dy: 1,
+			position: point{
+				x: x,
+				y: -1,
+			},
+		}
+
+		var visitedArr []beam
+		visitedMap := make(map[point]bool)
+		startBeam.step(grid, &visitedArr)
+
+		for _, p := range visitedArr {
+			visitedMap[p.position] = true
+		}
+
+		visited := len(visitedMap)
+		if visited > maxVisited {
+			maxVisited = visited
+		}
+	}
+
+	// all edges on the bottom
+	for x := 0; x < len(grid[0]); x++ {
+		startBeam := beam{
+			dy: -1,
+			position: point{
+				x: x,
+				y: len(grid),
+			},
+		}
+
+		var visitedArr []beam
+		visitedMap := make(map[point]bool)
+		startBeam.step(grid, &visitedArr)
+
+		for _, p := range visitedArr {
+			visitedMap[p.position] = true
+		}
+
+		visited := len(visitedMap)
+		if visited > maxVisited {
+			maxVisited = visited
+		}
+	}
+
+	// all edges on the left
+	for y := 0; y < len(grid); y++ {
+		startBeam := beam{
+			dx: 1,
+			position: point{
+				x: -1,
+				y: y,
+			},
+		}
+
+		var visitedArr []beam
+		visitedMap := make(map[point]bool)
+		startBeam.step(grid, &visitedArr)
+
+		for _, p := range visitedArr {
+			visitedMap[p.position] = true
+		}
+
+		visited := len(visitedMap)
+		if visited > maxVisited {
+			maxVisited = visited
+		}
+	}
+
+	// all edges on the right
+	for y := 0; y < len(grid); y++ {
+		startBeam := beam{
+			dx: -1,
+			position: point{
+				x: len(grid[0]),
+				y: y,
+			},
+		}
+
+		var visitedArr []beam
+		visitedMap := make(map[point]bool)
+		startBeam.step(grid, &visitedArr)
+
+		for _, p := range visitedArr {
+			visitedMap[p.position] = true
+		}
+
+		visited := len(visitedMap)
+		if visited > maxVisited {
+			maxVisited = visited
+		}
+	}
+
+	fmt.Println(maxVisited)
+}

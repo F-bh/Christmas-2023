@@ -45,5 +45,5 @@ func main() {
 	printDay(13, day13.TaskOne, day13.TaskTwo)
 	printDay(14, day14.TaskOne, day14.TaskTwo)
 	printDay(15, day15.TaskOne, day15.TaskTwo)
-	printDay(16, day16.TaskOne)
+	printDay(16, day16.TaskOne, day16.TaskTwo)
 }
