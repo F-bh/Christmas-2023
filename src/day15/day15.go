@@ -94,21 +94,26 @@ func TaskTwo() {
 		if entry[len(entry)-1] == '-' {
 			newLenses := slices.DeleteFunc(lenses, func(in lens) bool { return in.label == newLens.label })
 			boxes[boxHash] = newLenses
-			fmt.Printf("\nOp: %v - boxes:\n", entry)
-			for h, ls := range boxes {
-				fmt.Printf("Box: %v\nContains: %v\n\n", h, ls)
-			}
-
 			continue
 		}
 
 		// add to box
-		lenses = append(lenses, newLens)
-		boxes[boxHash] = lenses
+		oldIndex := slices.IndexFunc(lenses, func(l lens) bool { return l.label == newLens.label })
+		if oldIndex == -1 {
+			lenses = append(lenses, newLens)
+		} else {
+			lenses[oldIndex] = newLens
+		}
 
-		fmt.Printf("\nOp: %v - boxes:\n", entry)
-		for h, ls := range boxes {
-			fmt.Printf("Box: %v\nContains: %v\n\n", h, ls)
+		boxes[boxHash] = lenses
+	}
+
+	sum := 0
+	for box, lenses := range boxes {
+		for slot, lens := range lenses {
+			sum += (box + 1) * (slot + 1) * lens.focal
 		}
 	}
+
+	fmt.Println(sum)
 }
