@@ -7,7 +7,7 @@ import (
 	"Christmas-2023/src/day13"
 	"Christmas-2023/src/day14"
 	"Christmas-2023/src/day15"
-	"Christmas-2023/src/day16"
+	"Christmas-2023/src/day17"
 	"Christmas-2023/src/day2"
 	"Christmas-2023/src/day3"
 	"Christmas-2023/src/day4"
@@ -45,5 +45,6 @@ func main() {
 	printDay(13, day13.TaskOne, day13.TaskTwo)
 	printDay(14, day14.TaskOne, day14.TaskTwo)
 	printDay(15, day15.TaskOne, day15.TaskTwo)
-	printDay(16, day16.TaskOne, day16.TaskTwo)
+	//printDay(16, day16.TaskOne, day16.TaskTwo)
+	printDay(17, day17.TaskOne)
 }
